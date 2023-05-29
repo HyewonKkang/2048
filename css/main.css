@@ -1,0 +1,165 @@
+@import 'reset.css';
+
+:root {
+    --primary-100: #f6fbfe;
+    --primary-200: #eef6fe;
+    --primary-300: #e5f0fd;
+    --primary-400: #ddeafb;
+    --primary-500: #d2e1f9;
+    --primary-600: #99aed6;
+    --primary-700: #6980b3;
+    --primary-800: #425790;
+    --primary-900: #283a77;
+
+    --background-color: var(--primary-200);
+    --text-color: var(--primary-700);
+}
+
+html,
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+    margin: 3rem auto 0;
+    max-width: 44rem;
+    width: fit-content;
+    padding-top: 3rem;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.game-heading {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title {
+    font-size: 4rem;
+    font-weight: 900;
+}
+
+.scores-container {
+    display: flex;
+    gap: 5px;
+}
+
+.score {
+    background-color: var(--primary-600);
+    padding: 15px 25px;
+    border-radius: 3px;
+    position: relative;
+    display: block;
+    font-weight: bold;
+    font-size: 1.5rem;
+    height: 25px;
+    line-height: 3rem;
+    color: white;
+}
+
+.score::before {
+    position: absolute;
+    content: 'SCORE';
+    text-transform: uppercase;
+    font-size: 13px;
+    line-height: 13px;
+    color: var(--primary-300);
+    text-align: center;
+    width: 100%;
+    left: 0;
+    top: 0.7rem;
+}
+
+.best::before {
+    content: 'BEST';
+}
+
+.above-game {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    margin-top: 15px;
+    line-height: 1.5rem;
+}
+
+strong {
+    font-weight: 900;
+}
+
+.restart-button {
+    border-radius: 3px;
+    padding: 0 20px;
+    height: 38px;
+    color: var(--primary-200);
+    background: var(--primary-800);
+    text-align: center;
+    cursor: pointer;
+    border: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.game-container {
+    width: fit-content;
+    margin-top: 25px;
+}
+
+.game-board {
+    text-align: center;
+    width: fit-content;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 0.7rem;
+    align-items: stretch;
+    width: fit-content;
+    padding: 0.7rem;
+    background-color: var(--primary-600);
+    border-radius: 6px;
+}
+
+.grid-item {
+    max-width: 100px;
+    max-height: 100px;
+    width: 100px;
+    height: 100px;
+    background-color: var(--primary-400);
+    border-radius: 3px;
+}
+
+.footer {
+    margin: 0;
+    margin-top: 50px;
+    position: absolute;
+    bottom: 0;
+    width: -webkit-fill-available;
+    left: 0;
+}
+
+.footer-icon-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.footer-icon {
+    width: 30px;
+}
+
+.footer-image-container {
+    background: url('/images/stacked-snow.png') repeat 0 0;
+    width: 100%;
+    align-items: flex-end;
+    display: flex;
+    height: 100px;
+}
+
+.not-draggable {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
