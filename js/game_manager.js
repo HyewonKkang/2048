@@ -21,8 +21,7 @@ class GameManager {
         for (let i = 0; i < this.size * this.size; i++) {
             const tile = document.createElement('div');
             tile.textContent = 0;
-            tile.classList.add('tile');
-            tile.classList.add(`tile-pos-${i}`);
+            tile.classList.add('tile', `tile-pos-${i}`);
             this.tileContainer.appendChild(tile);
             this.board.push(tile);
         }
@@ -42,47 +41,17 @@ class GameManager {
     listen() {
         window.addEventListener('keydown', (e) => {
             switch (e.key) {
-                case 'ArrowLeft':
-                    this.slide();
-                    this.combineRow();
-                    this.slide();
-                    this.generateNewNumber();
-                    this.applyChangedRows();
+                case 'ArrowUp':
+                    this.moveDir(0);
                     break;
                 case 'ArrowRight':
-                    this.rotateClockwise();
-                    this.rotateClockwise();
-                    this.slide();
-                    this.combineRow();
-                    this.slide();
-                    this.rotateClockwise();
-                    this.rotateClockwise();
-                    this.generateNewNumber();
-                    this.applyChangedRows();
-                    break;
-                case 'ArrowUp':
-                    this.rotateClockwise();
-                    this.rotateClockwise();
-                    this.rotateClockwise();
-                    this.slide();
-                    this.combineRow();
-                    this.slide();
-                    this.rotateClockwise();
-                    this.generateNewNumber();
-                    this.applyChangedRows();
+                    this.moveDir(1);
                     break;
                 case 'ArrowDown':
-                    this.rotateClockwise();
-                    this.slide();
-                    this.combineRow();
-                    this.slide();
-                    this.rotateClockwise();
-                    this.rotateClockwise();
-                    this.rotateClockwise();
-                    this.generateNewNumber();
-                    this.applyChangedRows();
+                    this.moveDir(2);
                     break;
-                default:
+                case 'ArrowLeft':
+                    this.moveDir(3);
                     break;
             }
         });
@@ -99,15 +68,37 @@ class GameManager {
         } else this.generateNewNumber();
     }
 
+    moveDir(dir) {
+        switch (dir) {
+            case 0: // up
+                this.rotateClockwise(3);
+                this.slide();
+                this.rotateClockwise(1);
+                break;
+            case 1: // right
+                this.rotateClockwise(2);
+                this.slide();
+                this.rotateClockwise(2);
+                break;
+            case 2: // down
+                this.rotateClockwise(1);
+                this.slide();
+                this.rotateClockwise(3);
+                break;
+            case 3: // left
+                this.slide();
+                break;
+        }
+        this.update();
+    }
+
     slide() {
         if (this.isGameTerminated()) return;
         for (let i = 0; i < this.size * this.size; i += 4) {
             let changedRow = this.slideRowLeft(this.numSet.slice(i, i + 4));
-
-            this.numSet[i] = changedRow[0];
-            this.numSet[i + 1] = changedRow[1];
-            this.numSet[i + 2] = changedRow[2];
-            this.numSet[i + 3] = changedRow[3];
+            let combinedRow = this.combineRow(changedRow);
+            let result = this.slideRowLeft(combinedRow);
+            this.numSet.splice(i, 4, ...result);
         }
     }
 
@@ -118,25 +109,35 @@ class GameManager {
         return filteredTile.concat(zeros);
     }
 
-    combineRow() {
-        for (let i = 0; i < this.size * this.size; i++) {
-            if (this.numSet[i] === this.numSet[i + 1]) {
-                let combinedTotal = this.numSet[i] + this.numSet[i + 1];
-                this.numSet[i] = combinedTotal;
-                this.numSet[i + 1] = 0;
+    combineRow(row) {
+        for (let i = 0; i < this.size; i++) {
+            if (row[i] === row[i + 1]) {
+                let combinedTotal = row[i] + row[i + 1];
+                row[i] = combinedTotal;
+                row[i + 1] = 0;
             }
         }
+        return row;
     }
 
-    rotateClockwise() {
-        let tmp = Array(this.size * this.size).fill(0);
-        for (let i = 0; i < this.size * this.size; i += 4) {
-            tmp[this.size - 1 - i / this.size] = this.numSet[i];
-            tmp[this.size - 1 - i / this.size + 4] = this.numSet[i + 1];
-            tmp[this.size - 1 - i / this.size + 8] = this.numSet[i + 2];
-            tmp[this.size - 1 - i / this.size + 12] = this.numSet[i + 3];
+    rotateClockwise(count) {
+        const rotated = Array(this.size * this.size).fill(0);
+        const n = this.size;
+        for (let k = 0; k < count; k++) {
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < n; j++) {
+                    const newIndex = j * n + (n - i - 1);
+                    rotated[newIndex] = this.numSet[i * n + j];
+                }
+            }
+            this.numSet = rotated.slice();
         }
-        this.numSet = [...tmp];
+        this.numSet = rotated;
+    }
+
+    update() {
+        this.generateNewNumber();
+        this.applyChangedRows();
     }
 
     applyChangedRows() {
