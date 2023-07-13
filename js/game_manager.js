@@ -26,8 +26,7 @@ class GameManager {
     createBoard() {
         for (let i = 0; i < this.size * this.size; i++) {
             const tile = document.createElement('div');
-            tile.textContent = 0;
-            tile.classList.add('tile', 'tile-0');
+            tile.classList.add('tile', 'tile-0', `tile-pos-${i}`);
             this.tileContainer.appendChild(tile);
             this.board.push(tile);
         }
@@ -36,9 +35,9 @@ class GameManager {
     restart() {
         this.clearMessage();
         this.clearBoard();
-        this.generateNewNumber();
-        this.generateNewNumber();
         this.applyChangedRows();
+        this.generateNewNumber();
+        this.generateNewNumber();
         this.setup();
         this.actuate();
     }
@@ -83,7 +82,12 @@ class GameManager {
         if (this.numSet[randomTileIndex] == 0) {
             this.board[randomTileIndex].textContent = randomValue;
             this.board[randomTileIndex].className = '';
-            this.board[randomTileIndex].classList.add('tile', `tile-${randomValue}`);
+            this.board[randomTileIndex].classList.add(
+                'tile',
+                `tile-${randomValue}`,
+                `tile-pos-${randomTileIndex}`,
+                'tile-new',
+            );
             this.numSet[randomTileIndex] = randomValue;
         } else this.generateNewNumber();
     }
@@ -179,16 +183,16 @@ class GameManager {
     }
 
     update() {
-        this.generateNewNumber();
         this.applyChangedRows();
+        this.generateNewNumber();
     }
 
     applyChangedRows() {
         for (let i = 0; i < this.size * this.size; i++) {
             let n = this.numSet[i];
-            this.board[i].textContent = n;
+            if (n) this.board[i].textContent = n;
             this.board[i].className = '';
-            this.board[i].classList.add('tile', `tile-${n}`);
+            this.board[i].classList.add('tile', `tile-${n}`, `tile-pos-${i}`);
         }
     }
 

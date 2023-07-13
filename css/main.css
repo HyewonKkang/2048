@@ -1,17 +1,6 @@
 @import 'reset.css';
 
 :root {
-    /* blue version */
-    /* --primary-100: #f6fbfe;
-    --primary-200: #eef6fe;
-    --primary-300: #e5f0fd;
-    --primary-400: #ddeafb;
-    --primary-500: #d2e1f9;
-    --primary-600: #99aed6;
-    --primary-700: #6980b3;
-    --primary-800: #425790;
-    --primary-900: #283a77; */
-
     --primary-100: #f9f9fe;
     --primary-200: #ebedfb;
     --primary-300: #dddff8;
@@ -177,10 +166,10 @@ strong {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
-    gap: 0.5rem;
+    gap: 8px;
     align-items: stretch;
     width: fit-content;
-    padding: 0.5rem;
+    padding: 8px;
 }
 
 .grid-container {
@@ -208,6 +197,13 @@ strong {
     font-weight: bold;
     line-height: 100px;
     visibility: visible;
+    border-radius: 3px;
+    -webkit-transition: 100ms ease-in-out;
+    -moz-transition: 100ms ease-in-out;
+    transition: 100ms ease-in-out;
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    transition-property: transform;
 }
 
 .tile.tile-0 {
@@ -280,31 +276,64 @@ strong {
     font-size: 1.8rem;
 }
 
-.footer {
-    margin: 0;
-    margin-top: 50px;
-    position: absolute;
-    bottom: 0;
-    width: -webkit-fill-available;
-    left: 0;
+@keyframes appear {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+    }
 }
 
-.footer-icon-container {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
+@keyframes merge {
+    0% {
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+    }
+
+    50% {
+        -webkit-transform: scale(1.2);
+        -moz-transform: scale(1.2);
+        -ms-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+    }
 }
 
-.footer-icon {
-    width: 30px;
+.tile-new {
+    -webkit-animation: appear 200ms ease 100ms;
+    -moz-animation: appear 200ms ease 100ms;
+    animation: appear 200ms ease 100ms;
+    -webkit-animation-fill-mode: backwards;
+    -moz-animation-fill-mode: backwards;
+    animation-fill-mode: backwards;
 }
 
-.footer-image-container {
-    background: url('/images/stacked-snow.png') repeat 0 0;
-    width: 100%;
-    align-items: flex-end;
-    display: flex;
-    height: 100px;
+.tile-merged {
+    z-index: 10;
+    -webkit-animation: merge 200ms ease 100ms;
+    -moz-animation: merge 200ms ease 100ms;
+    animation: merge 200ms ease 100ms;
+    -webkit-animation-fill-mode: backwards;
+    -moz-animation-fill-mode: backwards;
+    animation-fill-mode: backwards;
 }
 
 .not-draggable {
