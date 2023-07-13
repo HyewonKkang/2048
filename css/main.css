@@ -1,7 +1,8 @@
 @import 'reset.css';
 
 :root {
-    --primary-100: #f6fbfe;
+    /* blue version */
+    /* --primary-100: #f6fbfe;
     --primary-200: #eef6fe;
     --primary-300: #e5f0fd;
     --primary-400: #ddeafb;
@@ -9,7 +10,17 @@
     --primary-600: #99aed6;
     --primary-700: #6980b3;
     --primary-800: #425790;
-    --primary-900: #283a77;
+    --primary-900: #283a77; */
+
+    --primary-100: #f9f9fe;
+    --primary-200: #ebedfb;
+    --primary-300: #dddff8;
+    --primary-400: #cdd1f5;
+    --primary-500: #a9aeee;
+    --primary-600: #929ae9;
+    --primary-700: #7780e4;
+    --primary-800: #525edc;
+    --primary-900: #0516cd;
 
     --background-color: var(--primary-200);
     --text-color: var(--primary-700);
@@ -182,7 +193,7 @@ strong {
     max-height: 100px;
     width: 100px;
     height: 100px;
-    background-color: var(--primary-400);
+    background-color: var(--primary-300);
     border-radius: 3px;
 }
 
@@ -201,6 +212,72 @@ strong {
 
 .tile.tile-0 {
     visibility: hidden;
+}
+
+.tile.tile-2 {
+    background: #d9ddfd;
+    color: #5e63ae;
+}
+
+.tile.tile-4 {
+    background: #c4c9f9;
+    color: #585fb1;
+}
+
+.tile.tile-8 {
+    background: #b3b9f4;
+    color: var(--primary-200);
+}
+
+.tile.tile-16 {
+    background: #99a0ee;
+    color: white;
+}
+
+.tile.tile-32 {
+    background: #a698db;
+    color: var(--primary-100);
+}
+
+.tile.tile-64 {
+    background: var(--primary-700);
+    color: var(--primary-100);
+}
+
+.tile.tile-128 {
+    background: #a481c6;
+    color: #fcf3fe;
+    font-size: 2.5rem;
+}
+
+.tile.tile-256 {
+    background: #a36aae;
+    color: #fef6fb;
+    font-size: 2.5rem;
+}
+
+.tile.tile-512 {
+    background: #9f5395;
+    color: #fdeef3;
+    font-size: 2.5rem;
+}
+
+.tile.tile-1024 {
+    background: #9a3a79;
+    color: #f9dae2;
+    font-size: 2.1rem;
+}
+
+.tile.tile-2048 {
+    background: #1d2c66;
+    color: var(--primary-200);
+    font-size: 2.1rem;
+}
+
+.tile.tile-super {
+    background: black;
+    color: var(--primary-100);
+    font-size: 1.8rem;
 }
 
 .footer {
