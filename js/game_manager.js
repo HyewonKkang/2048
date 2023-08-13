@@ -1,4 +1,4 @@
-function GameManager(size = 4, InputManager, HTMLHandler) {
+function GameManager(size = 4, InputManager, HTMLHandler, StorageManager) {
     this.size = size;
     this.board = new Board(size);
     this.over = false;
@@ -7,7 +7,8 @@ function GameManager(size = 4, InputManager, HTMLHandler) {
     this.score = 0;
 
     this.inputManager = new InputManager();
-    this.htmlHandler = new HTMLHandler();
+    this.storageManager = new StorageManager();
+    this.htmlHandler = new HTMLHandler(this.score, this.storageManager.getBestScore());
 
     this.inputManager.on('move', this.move.bind(this));
     this.inputManager.on('restart', this.restart.bind(this));
@@ -66,17 +67,23 @@ GameManager.prototype.move = function (dir) {
 
     this.moveDir(dir);
     this.calcScore();
-    this.htmlHandler.updateScore(this.score);
+    this.updateStorageScore();
+    this.htmlHandler.updateScore({
+        score: this.score,
+        bestScore: this.storageManager.getBestScore(),
+    });
 
     if (!this.board.movesAvailable()) {
         this.over = true;
-        this.htmlHandler.message();
+        this.htmlHandler.message(false);
+        this.inputManager.preventEvents();
         return;
     }
 
     if (this.checkWinCondition()) {
         this.won = true;
-        this.htmlHandler.message();
+        this.htmlHandler.message(true);
+        this.inputManager.preventEvents();
     }
 
     this.update();
@@ -140,6 +147,12 @@ GameManager.prototype.applyChangedRows = function () {
             false,
             this.board.isTileMerged(i) ? true : false,
         );
+    }
+};
+
+GameManager.prototype.updateStorageScore = function () {
+    if (this.storageManager.getBestScore() < this.score) {
+        this.storageManager.setBestScore(this.score);
     }
 };
 

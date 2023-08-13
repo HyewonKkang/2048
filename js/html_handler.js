@@ -1,8 +1,10 @@
-function HTMLHandler() {
+function HTMLHandler(score, bestScore) {
     this.tileContainer = document.querySelector('.tile-container');
     this.scoreContainer = document.querySelector('.score');
     this.bestScoreContainer = document.querySelector('.best');
     this.messageContainer = document.querySelector('.game-message');
+
+    this.updateScore({ score, bestScore });
 }
 
 HTMLHandler.prototype.createTile = function (pos) {
@@ -13,8 +15,9 @@ HTMLHandler.prototype.createTile = function (pos) {
     return tile;
 };
 
-HTMLHandler.prototype.updateScore = function (score) {
-    this.scoreContainer.textContent = score;
+HTMLHandler.prototype.updateScore = function (metadata) {
+    this.scoreContainer.textContent = metadata.score;
+    this.bestScoreContainer.textContent = metadata.bestScore;
 };
 
 HTMLHandler.prototype.clearMessage = function () {
@@ -26,9 +29,9 @@ HTMLHandler.prototype.resetScore = function () {
     this.scoreContainer.textContent = 0;
 };
 
-HTMLHandler.prototype.message = function () {
-    let type = this.won ? 'game-won' : 'game-over';
-    let message = this.won ? 'You win!' : 'Game over!';
+HTMLHandler.prototype.message = function (won) {
+    let type = won ? 'game-won' : 'game-over';
+    let message = won ? 'You win!' : 'Game over!';
     this.messageContainer.classList.add(type);
     this.messageContainer.getElementsByTagName('p')[0].textContent = message;
 };

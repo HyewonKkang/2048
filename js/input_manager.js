@@ -1,5 +1,6 @@
 function InputManager() {
     this.events = {};
+    this.isBlocked = false;
 
     this.listen();
 }
@@ -20,6 +21,8 @@ InputManager.prototype.on = function (event, callback) {
 
 InputManager.prototype.listen = function () {
     window.addEventListener('keydown', (e) => {
+        if (this.isBlocked) return;
+
         switch (e.key) {
             case 'ArrowUp':
                 this.emit('move', 0);
@@ -49,8 +52,18 @@ InputManager.prototype.bindButtonPress = function (selector, fn) {
 
 InputManager.prototype.restart = function () {
     this.emit('restart');
+    this.allowEvents();
 };
 
 InputManager.prototype.continueGame = function () {
     this.emit('keepPlaying');
+    this.allowEvents();
+};
+
+InputManager.prototype.preventEvents = function () {
+    this.isBlocked = true;
+};
+
+InputManager.prototype.allowEvents = function () {
+    this.isBlocked = false;
 };
