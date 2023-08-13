@@ -94,6 +94,7 @@ GameManager.prototype.calcScore = function () {
 };
 
 GameManager.prototype.moveDir = function (dir) {
+    this.board.setup();
     let tileValues = this.board.getTileValues();
     switch (dir) {
         case 0: // up

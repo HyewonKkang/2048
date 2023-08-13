@@ -17,6 +17,10 @@ Board.prototype.clearBoard = function () {
         });
 };
 
+Board.prototype.setup = function () {
+    this.mergedScore = 0;
+};
+
 Board.prototype.setTileValue = function (idx, val) {
     this.tiles[idx].value = val;
 };
@@ -98,7 +102,7 @@ Board.prototype.combineRow = function (row) {
             row[i].isMerged = true;
         }
     }
-    this.mergedScore = merged;
+    this.mergedScore += merged;
     return row;
 };
 
@@ -125,6 +129,7 @@ Board.prototype.getTileValues = function () {
 Board.prototype.setTileValues = function (values) {
     this.tiles.forEach((tile, i) => {
         tile.value = values[i];
+        tile.isMerged = false;
     });
 };
 
