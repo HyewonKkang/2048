@@ -342,3 +342,9 @@ strong {
     -ms-user-select: none;
     user-select: none;
 }
+
+@media (max-width: 767px) {
+    body {
+        padding: 50px;
+    }
+}

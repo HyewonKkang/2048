@@ -42,6 +42,30 @@ InputManager.prototype.listen = function () {
     this.bindButtonPress('.restart-button', this.restart);
     this.bindButtonPress('.retry-button', this.restart);
     this.bindButtonPress('.keep-playing-button', this.continueGame);
+
+    const gameContainer = document.querySelector('.game-container');
+    let touchStartX, touchStartY, touchEndX, touchEndY;
+
+    gameContainer.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 1) return;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        e.preventDefault();
+    });
+    gameContainer.addEventListener('touchmove', (e) => e.preventDefault());
+    gameContainer.addEventListener('touchend', (e) => {
+        if (e.touches.length > 0) return;
+        touchEndX = e.changedTouches[0].clientX;
+        touchEndY = e.changedTouches[0].clientY;
+
+        let dx = touchEndX - touchStartX;
+        let dy = touchEndY - touchStartY;
+        let absDx = Math.abs(dx);
+        let absDy = Math.abs(dy);
+
+        if (Math.max(absDx, absDy) > 10)
+            this.emit('move', absDx > absDy ? (dx > 0 ? 1 : 3) : dy > 0 ? 2 : 0);
+    });
 };
 
 InputManager.prototype.bindButtonPress = function (selector, fn) {
